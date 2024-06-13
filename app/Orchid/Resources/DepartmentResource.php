@@ -35,7 +35,7 @@ class DepartmentResource extends Resource
             Relation::make('employee_id')
                 ->fromModel(Employee::class, 'name')
                 ->title(__('Name Employee'))
-                ->help('Specify which groups this account should belong to'),
+                ->help('Busque el jefe de la unidad'),
         ];
     }
 

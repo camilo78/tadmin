@@ -6,6 +6,7 @@ use Orchid\Crud\Resource;
 use Orchid\Screen\TD;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
+use Orchid\Crud\Filters\DefaultSorted;
 
 class EmployeeResource extends Resource
 {
@@ -16,6 +17,7 @@ class EmployeeResource extends Resource
      */
     public static $model = \App\Models\Employee::class;
 
+    
     /**
      * Get the fields displayed by the resource.
      *
@@ -74,16 +76,25 @@ class EmployeeResource extends Resource
     {
         return [
             TD::make('id'),
+            TD::make('name','Nombre Completo'),
+            TD::make('email','Correo Electrónico'),
+            TD::make('dni','DNI'),
+            TD::make('funcional','Cargo Funcional')
+            ->defaultHidden(),
+            TD::make('nominal','Cargo Nominal')
+            ->defaultHidden(),
 
-            TD::make('created_at', 'Date of creation')
+            TD::make('type','Tipo de Contratación'),
+
+            TD::make('created_at', 'Fecha de Creación')
                 ->render(function ($model) {
                     return $model->created_at->toDateTimeString();
-                }),
+                })->defaultHidden(),
 
-            TD::make('updated_at', 'Update date')
+            TD::make('updated_at', 'Actualizado el')
                 ->render(function ($model) {
                     return $model->updated_at->toDateTimeString();
-                }),
+                })->defaultHidden(),
         ];
     }
 
@@ -104,6 +115,8 @@ class EmployeeResource extends Resource
      */
     public function filters(): array
     {
-        return [];
+        return [
+            EmployeesFilter::class,
+        ];
     }
 }
