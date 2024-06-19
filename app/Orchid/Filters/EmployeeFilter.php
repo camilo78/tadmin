@@ -27,7 +27,7 @@ class EmployeeFilter extends Filter
      */
     public function parameters(): ?array
     {
-        return [];
+        return ['employee'];
     }
 
     /**
@@ -49,6 +49,11 @@ class EmployeeFilter extends Filter
      */
     public function display(): iterable
     {
-        return [];
-    }
+        return [
+            Select::make('employee')
+                ->fromModel(Employee::class, 'name', 'name')
+                ->empty()
+                ->value($this->request->get('employee'))
+                ->title(__('Empleado')),
+        ];    }
 }

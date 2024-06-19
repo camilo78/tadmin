@@ -7,6 +7,10 @@ use Orchid\Screen\TD;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Crud\Filters\DefaultSorted;
+use App\Orchid\Filters\EmployeeFilter;
+use Orchid\Screen\Layouts\Persona;
+use App\Models\Employee;
+
 
 class EmployeeResource extends Resource
 {
@@ -17,7 +21,7 @@ class EmployeeResource extends Resource
      */
     public static $model = \App\Models\Employee::class;
 
-    
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -75,8 +79,11 @@ class EmployeeResource extends Resource
     public function columns(): array
     {
         return [
-            TD::make('id'),
-            TD::make('name','Nombre Completo'),
+            TD::make('name','Nombre Completo')
+            ->sort()
+            ->filter(Input::make())
+            ->render(fn (Employee $user) => new Persona($user->presenter())),
+
             TD::make('email','Correo Electrónico'),
             TD::make('dni','DNI'),
             TD::make('funcional','Cargo Funcional')
@@ -116,7 +123,7 @@ class EmployeeResource extends Resource
     public function filters(): array
     {
         return [
-            EmployeesFilter::class,
+            EmployeeFilter::class,
         ];
     }
 }
